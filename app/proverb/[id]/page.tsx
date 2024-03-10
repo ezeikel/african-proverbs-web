@@ -7,20 +7,15 @@ type ProverbProps = {
   };
 };
 
-const Proverb = async ({
-  params: {
-    id
-  }
-}:ProverbProps ) => {
-
+const Proverb = async ({ params: { id } }: ProverbProps) => {
   if (!id) {
-    return <div>Proverb not found</div>
+    return <div>Proverb not found</div>;
   }
 
-  const proverb = await getProverb(Number(id));
+  const proverb = await getProverb(id);
 
   if (!proverb) {
-    return <div>Proverb not found</div>
+    return <div>Proverb not found</div>;
   }
 
   return (
@@ -31,7 +26,6 @@ const Proverb = async ({
       <p>{proverb.category}</p>
     </PageWrap>
   );
-
-}
+};
 
 export default Proverb;
