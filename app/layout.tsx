@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Header from "@/components/Header/Header";
+import Providers from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,22 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          <ul>
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/proverbs">Proverbs</Link>
-            </li>
-            <li>
-              <Link href="/admin/proverb/create">Create Proverb</Link>
-            </li>
-          </ul>
-        </header>
-        <main>
-        {children}
-        </main>
+        <Providers>
+          <Header />
+          <main>{children}</main>
+        </Providers>
         <Analytics />
       </body>
     </html>

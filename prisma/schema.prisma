@@ -15,17 +15,17 @@ datasource db {
 }
 
 enum Region {
-  ASHANTI
-  ZULU
-  MASAI
-  HAUSA
-}
-
-enum Tribe {
   NORTH_AFRICA
   EAST_AFRICA
   WEST_AFRICA
   SOUTH_AFRICA
+}
+
+enum Tribe {
+  ASHANTI
+  ZULU
+  MASAI
+  HAUSA
 }
 
 enum Category {
@@ -35,12 +35,62 @@ enum Category {
   SUCCESS
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 model Proverb {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(cuid())
   text      String
   region    Region?
   tribe     Tribe?
   category  Category?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @updatedAt @map(name: "updated_at")
+  users     User[]    @relation("UserFavorites")
+  comments  Comment[]
+  likes     User[]    @relation("UserLikes") // Updated for likes
+  Like      Like[]
+
+  @@map(name: "proverbs")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  role          Role      @default(USER)
+  proverbs      Proverb[] @relation("UserFavorites")
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  comments      Comment[]
+  likedProverbs Proverb[] @relation("UserLikes") // This replaces the likes field for the correct many-to-many relation
+  Like          Like[]
+
+  @@map(name: "users")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  userId    String
+  proverbId String
+  user      User     @relation(fields: [userId], references: [id])
+  proverb   Proverb  @relation(fields: [proverbId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map(name: "comments")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  proverbId String
+  user      User     @relation(fields: [userId], references: [id])
+  proverb   Proverb  @relation(fields: [proverbId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, proverbId]) // ensures a user can only like a proverb once
+  @@map(name: "likes")
 }
