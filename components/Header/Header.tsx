@@ -17,7 +17,6 @@ const Header = () => {
         <li>
           <p>Signed in as {userEmail}</p>
           <button onClick={() => signOut()}>Sign out</button>
-          <img src="https://cdn.pixabay.com/photo/2017/08/11/19/36/vw-2632486_1280.png" />
         </li>
       );
     }
@@ -39,7 +38,7 @@ const Header = () => {
           <Link href="/proverbs">Proverbs</Link>
         </li>
         <li>
-          <Link href="/admin/proverb/create">Create Proverb</Link>
+          <Link href="/proverb/create">Create Proverb</Link>
         </li>
         {renderAuthLink()}
       </ul>

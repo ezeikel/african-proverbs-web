@@ -1,13 +1,12 @@
 import CreateProverbForm from "@/components/forms/CreateProverbForm/CreateProverbForm";
-import PageWrap from "@/components/forms/CreateProverbForm/PageWrap/PageWrap";
+import PageWrap from "@/components/PageWrap/PageWrap";
 
 const CreateProverb = () => {
   return (
     <PageWrap>
       <CreateProverbForm />
     </PageWrap>
-  )
+  );
+};
 
-}
-
-export default CreateProverb
+export default CreateProverb;

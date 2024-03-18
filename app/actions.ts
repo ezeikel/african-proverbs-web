@@ -1,13 +1,14 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Category, Region, Role, Tribe } from "@prisma/client";
+import { Category, Region, Country, Tribe } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const createProverb = async (
   userId: string | undefined,
   formData: FormData,
 ) => {
+  // TODO: check if there is a user before allowing them to create a proverb
   // retrieve the user from the database
   const user = await prisma.user.findUnique({
     where: {
@@ -15,18 +16,21 @@ export const createProverb = async (
     },
   });
 
-  // check if the user exists and if their role is ADMIN
-  if (!user || user.role !== Role.ADMIN) {
-    // If the user does not exist or is not an ADMIN, return an error response
-    return console.error("Unauthorized: Only admins can create proverbs.");
+  if (!user) {
+    throw new Error("You must be logged in to create a proverb.");
   }
 
   const rawFormData = {
     text: (formData.get("text") as string) || "",
     region: (formData.get("region") as Region) || undefined,
+    country: (formData.get("country") as Country) || undefined,
     tribe: (formData.get("tribe") as Tribe) || undefined,
     category: (formData.get("category") as Category) || undefined,
   };
+
+  console.log(rawFormData);
+
+  return null;
 
   const proverb = await prisma.proverb.create({
     data: rawFormData,

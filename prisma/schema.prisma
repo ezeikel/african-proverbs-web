@@ -15,10 +15,70 @@ datasource db {
 }
 
 enum Region {
-  NORTH_AFRICA
-  EAST_AFRICA
-  WEST_AFRICA
+  NORTHERN_AFRICA
+  SUB_SAHARAN_AFRICA
+  EASTERN_AFRICA
+  CENTRAL_AFRICA
+  SOUTHERN_AFRICA
+  WESTERN_AFRICA
+}
+
+// 54 countries in Africa
+enum Country {
+  ALGERIA
+  ANGOLA
+  BENIN
+  BOTSWANA
+  BURKINA_FASO
+  BURUNDI
+  CAPE_VERDE
+  CAMEROON
+  CENTRAL_AFRICAN_REPUBLIC
+  CHAD
+  COMOROS
+  CONGO
+  DEMOCRATIC_REPUBLIC_OF_THE_CONGO
+  DJIBOUTI
+  EGYPT
+  EQUATORIAL_GUINEA
+  ERITREA
+  ESWATINI
+  ETHIOPIA
+  GABON
+  GAMBIA
+  GHANA
+  GUINEA
+  GUINEA_BISSAU
+  IVORY_COAST
+  KENYA
+  LESOTHO
+  LIBERIA
+  LIBYA
+  MADAGASCAR
+  MALAWI
+  MALI
+  MAURITANIA
+  MAURITIUS
+  MOROCCO
+  MOZAMBIQUE
+  NAMIBIA
+  NIGER
+  NIGERIA
+  RWANDA
+  SAO_TOME_AND_PRINCIPE
+  SENEGAL
+  SEYCHELLES
+  SIERRA_LEONE
+  SOMALIA
   SOUTH_AFRICA
+  SOUTH_SUDAN
+  SUDAN
+  TANZANIA
+  TOGO
+  TUNISIA
+  UGANDA
+  ZAMBIA
+  ZIMBABWE
 }
 
 enum Tribe {
@@ -44,6 +104,7 @@ model Proverb {
   id        String    @id @default(cuid())
   text      String
   region    Region?
+  country   Country?
   tribe     Tribe?
   category  Category?
   createdAt DateTime  @default(now()) @map(name: "created_at")

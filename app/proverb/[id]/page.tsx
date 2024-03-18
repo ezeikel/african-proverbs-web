@@ -1,5 +1,5 @@
 import { getProverb } from "@/app/actions";
-import PageWrap from "@/components/forms/CreateProverbForm/PageWrap/PageWrap";
+import PageWrap from "@/components/PageWrap/PageWrap";
 
 type ProverbProps = {
   params: {
