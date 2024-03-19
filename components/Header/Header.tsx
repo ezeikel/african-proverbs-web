@@ -13,16 +13,11 @@ import { Button } from "../ui/button";
 const NAVIGATION_ITEMS = [
   {
     id: "1",
-    title: "Home",
-    href: "/",
-  },
-  {
-    id: "2",
     title: "Proverbs",
     href: "/proverbs",
   },
   {
-    id: "3",
+    id: "2",
     title: "Create Proverb",
     href: "/proverb/create",
   },
@@ -51,21 +46,26 @@ const Header = () => {
 
   return (
     <header className="flex justify-between p-4">
-      <NavigationMenu>
-        <NavigationMenuList>
-          {NAVIGATION_ITEMS.map((item) => (
-            <NavigationMenuLink
-              key={item.id}
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link href={item.href} legacyBehavior passHref>
-                {item.title}
-              </Link>
-            </NavigationMenuLink>
-          ))}
-        </NavigationMenuList>
-      </NavigationMenu>
-      <div className="flex items-center gap-x-4">{renderAuthLink()}</div>
+      <Link className="text-2xl font-bold text-[#6b705c]" href="/">
+        African Proverbs
+      </Link>
+      <div className="flex gap-x-4">
+        <NavigationMenu>
+          <NavigationMenuList>
+            {NAVIGATION_ITEMS.map((item) => (
+              <NavigationMenuLink
+                key={item.id}
+                className={navigationMenuTriggerStyle()}
+              >
+                <Link href={item.href} legacyBehavior passHref>
+                  {item.title}
+                </Link>
+              </NavigationMenuLink>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
+        <div className="flex items-center gap-x-4">{renderAuthLink()}</div>
+      </div>
     </header>
   );
 };

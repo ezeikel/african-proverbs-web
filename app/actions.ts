@@ -38,18 +38,22 @@ export const createProverb = async (
   return proverb;
 };
 
-export const getProverbs = async () => {
-  const proverbs = await prisma.proverb.findMany();
-
-  return proverbs;
-};
+export const getProverbs = () => prisma.proverb.findMany();
 
 export const getProverb = async (id: string) => {
-  const proverb = await prisma.proverb.findFirst({
+  const proverb = await prisma.proverb.findUnique({
     where: {
       id,
     },
   });
+
+  return proverb;
+};
+
+export const getProverbOfTheDay = async () => {
+  // TODO: change this to be the latest entry from the proverb of the day table
+
+  const proverb = await prisma.proverb.findFirst();
 
   return proverb;
 };

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
-import { Country } from "@prisma/client";
+import { Country, Region } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,9 +46,9 @@ const CreateProverbForm = ({ className }: CreateProverbFormProps) => {
           <SelectValue placeholder="Select a region" />
         </SelectTrigger>
         <SelectContent>
-          {REGIONS.map((region) => (
-            <SelectItem key={region.code} value={region.code}>
-              {region.name}
+          {Object.keys(REGIONS).map((region) => (
+            <SelectItem key={region} value={region}>
+              {REGIONS[region as Region].name}
             </SelectItem>
           ))}
         </SelectContent>

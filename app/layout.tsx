@@ -5,6 +5,7 @@ import Header from "@/components/Header/Header";
 import Providers from "./providers";
 import "../global.css";
 import { cn } from "@/lib/utils";
+import Footer from "@/components/Footer/Footer";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <main>{children}</main>
+          <Footer />
         </Providers>
         <Analytics />
       </body>

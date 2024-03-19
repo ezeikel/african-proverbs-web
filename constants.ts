@@ -1,8 +1,13 @@
 import { Country } from "@prisma/client";
-import { Countries, CountryCode, Region, RegionCode } from "./types";
+import {
+  Countries,
+  CountryCode,
+  Region as RegionType,
+  RegionCode,
+} from "./types";
 
-export const REGIONS: Region[] = [
-  {
+export const REGIONS = {
+  NORTHERN_AFRICA: {
     name: "Northern Africa",
     code: RegionCode.NA,
     countries: [
@@ -15,7 +20,7 @@ export const REGIONS: Region[] = [
       // CountryCode.EH,
     ],
   },
-  {
+  SUB_SAHARAN_AFRICA: {
     name: "Sub-Saharan Africa",
     code: RegionCode.SSA,
     countries: [
@@ -38,7 +43,7 @@ export const REGIONS: Region[] = [
       CountryCode.TG,
     ],
   },
-  {
+  EASTERN_AFRICA: {
     name: "Eastern Africa",
     code: RegionCode.EA,
     countries: [
@@ -63,7 +68,7 @@ export const REGIONS: Region[] = [
       CountryCode.ZW,
     ],
   },
-  {
+  CENTRAL_AFRICA: {
     name: "Central Africa",
     code: RegionCode.CA,
     countries: [
@@ -78,7 +83,7 @@ export const REGIONS: Region[] = [
       CountryCode.TD,
     ],
   },
-  {
+  SOUTHERN_AFRICA: {
     name: "Southern Africa",
     code: RegionCode.SA,
     countries: [
@@ -89,7 +94,7 @@ export const REGIONS: Region[] = [
       CountryCode.ZA,
     ],
   },
-  {
+  WESTERN_AFRICA: {
     name: "Western Africa",
     code: RegionCode.WA,
     countries: [
@@ -112,7 +117,7 @@ export const REGIONS: Region[] = [
       CountryCode.TG,
     ],
   },
-];
+};
 
 export const COUNTRIES: Countries = {
   ALGERIA: { name: "Algeria", code: CountryCode.DZ },

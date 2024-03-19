@@ -1,12 +1,17 @@
+import PageWrap from "@/components/PageWrap/PageWrap";
+import ProverbOfTheDay from "@/components/ProverbOfTheDay/ProverbOfTheDay";
 
 const Home = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">Welcome to African Proverbs</h1>
-      <p className="text-2xl">A collection of proverbs from across the African continent</p>
-    </div>
+    <PageWrap className="p-0">
+      <ProverbOfTheDay
+        className="w-full h-1/2 bg-red-50 p-4"
+        style={{
+          height: "calc(75vh - 72px)",
+        }}
+      />
+    </PageWrap>
   );
-}
+};
 
 export default Home;
-
