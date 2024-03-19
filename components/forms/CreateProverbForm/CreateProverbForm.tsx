@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Country, Region } from "@prisma/client";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -12,22 +11,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createProverb } from "@/app/actions";
+import { contributeProverb } from "@/app/actions";
 import { COUNTRIES, REGIONS } from "@/constants";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-type CreateProverbFormProps = {
+type ContributeProverbFormProps = {
   className?: string;
 };
 
-const CreateProverbForm = ({ className }: CreateProverbFormProps) => {
+const ContributeProverbForm = ({ className }: ContributeProverbFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const { data } = useSession();
   const userId = data?.userId;
 
-  const createProverbWithId = createProverb.bind(null, userId);
+  const contributeProverbWithId = contributeProverb.bind(null, userId);
 
   return (
     <div
@@ -36,11 +35,11 @@ const CreateProverbForm = ({ className }: CreateProverbFormProps) => {
       })}
     >
       <h1 className="text-3xl font-semibold text-center text-gray-700 dark:text-white">
-        Create a Proverb
+        Contribute a Proverb
       </h1>
       <form
         action={async (formData) => {
-          await createProverbWithId(formData);
+          await contributeProverbWithId(formData);
 
           // reset the form
           formRef.current?.reset();
@@ -120,4 +119,4 @@ const CreateProverbForm = ({ className }: CreateProverbFormProps) => {
   );
 };
 
-export default CreateProverbForm;
+export default ContributeProverbForm;

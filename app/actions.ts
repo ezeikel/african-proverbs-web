@@ -4,11 +4,10 @@ import prisma from "@/lib/prisma";
 import { Category, Region, Country, Tribe } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export const createProverb = async (
+export const contributeProverb = async (
   userId: string | undefined,
   formData: FormData,
 ) => {
-  // TODO: check if there is a user before allowing them to create a proverb
   // retrieve the user from the database
   const user = await prisma.user.findUnique({
     where: {
@@ -17,7 +16,7 @@ export const createProverb = async (
   });
 
   if (!user) {
-    throw new Error("You must be logged in to create a proverb.");
+    throw new Error("You must be logged in to contribute a proverb.");
   }
 
   const rawFormData = {

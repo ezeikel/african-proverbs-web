@@ -1,5 +1,5 @@
-import { getProverb } from "@/app/actions";
 import PageWrap from "@/components/PageWrap/PageWrap";
+import Proverb from "@/components/Proverb/Proverb";
 
 type ProverbProps = {
   params: {
@@ -7,25 +7,16 @@ type ProverbProps = {
   };
 };
 
-const Proverb = async ({ params: { id } }: ProverbProps) => {
+const ProverbPage = async ({ params: { id } }: ProverbProps) => {
   if (!id) {
-    return <div>Proverb not found</div>;
-  }
-
-  const proverb = await getProverb(id);
-
-  if (!proverb) {
     return <div>Proverb not found</div>;
   }
 
   return (
     <PageWrap>
-      <h1>{proverb.text}</h1>
-      <p>{proverb.region}</p>
-      <p>{proverb.tribe}</p>
-      <p>{proverb.category}</p>
+      <Proverb id={id} />
     </PageWrap>
   );
 };
 
-export default Proverb;
+export default ProverbPage;

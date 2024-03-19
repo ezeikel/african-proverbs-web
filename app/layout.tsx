@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { Inter as FontSans } from "next/font/google";
+import { Lora as FontSerif, Lexend as FontSans } from "next/font/google";
 import Header from "@/components/Header/Header";
 import { cn } from "@/lib/utils";
 import LayoutWrap from "@/components/LayoutWrap/LayoutWrap";
 import Providers from "./providers";
 import "../global.css";
 
-const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
+const fontSerif = FontSerif({
+  subsets: ["latin"],
+  variable: "--font-serif",
+});
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "African Proverbs",
@@ -21,7 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("font-sans antialiased", fontSans.variable)}>
+      <body
+        className={cn(
+          "font-sans antialiased",
+          fontSerif.variable,
+          fontSans.variable,
+        )}
+      >
         <Providers>
           <LayoutWrap>
             <Header className="row-start-1 row-span-1" />

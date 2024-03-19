@@ -19,8 +19,8 @@ const NAVIGATION_ITEMS = [
   },
   {
     id: "2",
-    title: "Create Proverb",
-    href: "/proverb/create",
+    title: "Contribute",
+    href: "/proverb/contribute",
   },
 ];
 
@@ -49,7 +49,7 @@ const Header = ({ className }: HeaderProps) => {
         [className as string]: !!className,
       })}
     >
-      <Link className="text-2xl font-bold text-[#6b705c]" href="/">
+      <Link className="text-2xl font-bold font-serif" href="/">
         African Proverbs
       </Link>
       <div className="flex gap-x-4">

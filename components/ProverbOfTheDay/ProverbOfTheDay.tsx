@@ -27,7 +27,7 @@ const ProverbOfTheDay = async ({ className, style }: ProverbOfTheDayProps) => {
         <h1 className="text-3xl font-bold text-center mb-6">
           Proverb of the Day
         </h1>
-        <p className="mb-4">
+        <p className="mb-4 font-serif">
           &quot;{proverb.text}&quot; - {REGIONS[proverb.region as Region].name}
         </p>
         <Button className="self-center">Gain Insight</Button>
