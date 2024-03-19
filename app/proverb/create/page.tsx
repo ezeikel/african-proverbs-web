@@ -3,10 +3,8 @@ import PageWrap from "@/components/PageWrap/PageWrap";
 
 const CreateProverb = () => {
   return (
-    <PageWrap>
-      <div className="flex justify-center">
-        <CreateProverbForm className="max-w-80" />
-      </div>
+    <PageWrap className="flex justify-center">
+      <CreateProverbForm className="w-full max-w-md p-6 m-auto bg-white rounded-md shadow-md" />
     </PageWrap>
   );
 };

@@ -9,6 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Button } from "../ui/button";
+import cn from "@/utils/cn";
 
 const NAVIGATION_ITEMS = [
   {
@@ -23,9 +24,12 @@ const NAVIGATION_ITEMS = [
   },
 ];
 
-const Header = () => {
-  const { data: session, status } = useSession();
-  const userEmail = session?.user?.email;
+type HeaderProps = {
+  className?: string;
+};
+
+const Header = ({ className }: HeaderProps) => {
+  const { status } = useSession();
 
   const renderAuthLink = () => {
     if (status === "loading") {
@@ -33,19 +37,18 @@ const Header = () => {
     }
 
     if (status === "authenticated") {
-      return (
-        <>
-          <p>{userEmail}</p>
-          <Button onClick={() => signOut()}>Sign out</Button>
-        </>
-      );
+      return <Button onClick={() => signOut()}>Sign out</Button>;
     }
 
     return <Button onClick={() => signIn("github")}>Sign in</Button>;
   };
 
   return (
-    <header className="flex justify-between p-4">
+    <header
+      className={cn("flex justify-between p-4 shadow-lg", {
+        [className as string]: !!className,
+      })}
+    >
       <Link className="text-2xl font-bold text-[#6b705c]" href="/">
         African Proverbs
       </Link>

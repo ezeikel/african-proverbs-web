@@ -8,9 +8,12 @@ type PageWrapProps = {
 const PageWrap = ({ children, className }: PageWrapProps) => {
   return (
     <div
-      className={cn("flex flex-col min-h-screen p-4", {
+      className={cn("h-full flex flex-col p-4 bg-slate-200 overflow-y-scroll", {
         [className as string]: !!className,
       })}
+      style={{
+        height: "calc(100vh - 72px)",
+      }}
     >
       {children}
     </div>

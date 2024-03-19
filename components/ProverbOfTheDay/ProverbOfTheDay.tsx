@@ -18,7 +18,7 @@ const ProverbOfTheDay = async ({ className, style }: ProverbOfTheDayProps) => {
 
   return (
     <section
-      className={cn("flex items-center justify-center", {
+      className={cn("flex items-center justify-center bg-red-50", {
         [className as string]: !!className,
       })}
       style={style}

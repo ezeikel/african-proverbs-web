@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Inter as FontSans } from "next/font/google";
 import Header from "@/components/Header/Header";
+import { cn } from "@/lib/utils";
+import LayoutWrap from "@/components/LayoutWrap/LayoutWrap";
 import Providers from "./providers";
 import "../global.css";
-import { cn } from "@/lib/utils";
-import Footer from "@/components/Footer/Footer";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -21,16 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
+      <body className={cn("font-sans antialiased", fontSans.variable)}>
         <Providers>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <LayoutWrap>
+            <Header className="row-start-1 row-span-1" />
+            <main className="row-start-2 row-span-1">{children}</main>
+          </LayoutWrap>
         </Providers>
         <Analytics />
       </body>

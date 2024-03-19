@@ -1,15 +1,12 @@
 import PageWrap from "@/components/PageWrap/PageWrap";
 import ProverbOfTheDay from "@/components/ProverbOfTheDay/ProverbOfTheDay";
+import Subscribe from "@/components/Subscribe/Subscribe";
 
 const Home = () => {
   return (
-    <PageWrap className="p-0">
-      <ProverbOfTheDay
-        className="w-full h-1/2 bg-red-50 p-4"
-        style={{
-          height: "calc(75vh - 72px)",
-        }}
-      />
+    <PageWrap className="p-0 bg-white">
+      <ProverbOfTheDay className="w-full h-full p-4" />
+      <Subscribe />
     </PageWrap>
   );
 };
