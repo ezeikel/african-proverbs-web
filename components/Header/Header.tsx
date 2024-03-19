@@ -2,6 +2,31 @@
 
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  NavigationMenu,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { Button } from "../ui/button";
+
+const NAVIGATION_ITEMS = [
+  {
+    id: "1",
+    title: "Home",
+    href: "/",
+  },
+  {
+    id: "2",
+    title: "Proverbs",
+    href: "/proverbs",
+  },
+  {
+    id: "3",
+    title: "Create Proverb",
+    href: "/proverb/create",
+  },
+];
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -9,39 +34,38 @@ const Header = () => {
 
   const renderAuthLink = () => {
     if (status === "loading") {
-      return <li>Loading...</li>;
+      return <div>Loading...</div>;
     }
 
     if (status === "authenticated") {
       return (
-        <li>
-          <p>Signed in as {userEmail}</p>
-          <button onClick={() => signOut()}>Sign out</button>
-        </li>
+        <>
+          <p>{userEmail}</p>
+          <Button onClick={() => signOut()}>Sign out</Button>
+        </>
       );
     }
 
-    return (
-      <li>
-        <button onClick={() => signIn("github")}>Sign in</button>
-      </li>
-    );
+    return <Button onClick={() => signIn("github")}>Sign in</Button>;
   };
 
   return (
-    <header>
-      <ul>
-        <li>
-          <Link href="/">Home</Link>
-        </li>
-        <li>
-          <Link href="/proverbs">Proverbs</Link>
-        </li>
-        <li>
-          <Link href="/proverb/create">Create Proverb</Link>
-        </li>
-        {renderAuthLink()}
-      </ul>
+    <header className="flex justify-between p-4">
+      <NavigationMenu>
+        <NavigationMenuList>
+          {NAVIGATION_ITEMS.map((item) => (
+            <NavigationMenuLink
+              key={item.id}
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link href={item.href} legacyBehavior passHref>
+                {item.title}
+              </Link>
+            </NavigationMenuLink>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+      <div className="flex items-center gap-x-4">{renderAuthLink()}</div>
     </header>
   );
 };

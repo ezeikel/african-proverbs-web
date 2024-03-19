@@ -28,10 +28,6 @@ export const createProverb = async (
     category: (formData.get("category") as Category) || undefined,
   };
 
-  console.log(rawFormData);
-
-  return null;
-
   const proverb = await prisma.proverb.create({
     data: rawFormData,
   });

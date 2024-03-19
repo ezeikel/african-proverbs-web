@@ -4,7 +4,9 @@ import PageWrap from "@/components/PageWrap/PageWrap";
 const CreateProverb = () => {
   return (
     <PageWrap>
-      <CreateProverbForm />
+      <div className="flex justify-center">
+        <CreateProverbForm className="max-w-80" />
+      </div>
     </PageWrap>
   );
 };

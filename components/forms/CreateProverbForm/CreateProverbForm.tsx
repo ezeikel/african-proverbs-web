@@ -3,12 +3,24 @@
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Country } from "@prisma/client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { createProverb } from "@/app/actions";
-import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import { COUNTRIES, REGIONS } from "@/constants";
-import Select from "../inputs/Select/Select";
+import { cn } from "@/lib/utils";
 
-const CreateProverbForm = () => {
+type CreateProverbFormProps = {
+  className?: string;
+};
+
+const CreateProverbForm = ({ className }: CreateProverbFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const { data } = useSession();
   const userId = data?.userId;
@@ -23,42 +35,39 @@ const CreateProverbForm = () => {
         // reset the form
         formRef.current?.reset();
       }}
-      className="flex flex-wrap gap-4 p-4 border-2 border-slate-400"
+      className={cn("flex flex-wrap gap-4 p-4", {
+        [className as string]: !!className,
+      })}
       ref={formRef}
     >
-      <input
-        type="text"
-        name="text"
-        className="border-2 border-black"
-        required
-      />
-      <Select
-        name="region"
-        placeholder="Select a region"
-        selectOptions={REGIONS.map((region) => ({
-          label: region.name,
-          value: region.code,
-        }))}
-        handleChange={(option) => {
-          console.log(option);
-        }}
-      />
-      <Select
-        name="country"
-        placeholder="Select a country"
-        selectOptions={Object.keys(COUNTRIES).map((country) => ({
-          label: COUNTRIES[country as Country].name,
-          value: country as Country,
-        }))}
-        handleChange={(option) => {
-          console.log(option);
-        }}
-      />
-      <input type="text" name="tribe" className="border-2 border-black" />
-      <input type="text" name="category" className="border-2 border-black" />
-      <SubmitButton className="bg-blue-500 text-white p-2 rounded">
-        Submit
-      </SubmitButton>
+      <Input type="text" name="text" required />
+      <Select name="region">
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Select a region" />
+        </SelectTrigger>
+        <SelectContent>
+          {REGIONS.map((region) => (
+            <SelectItem key={region.code} value={region.code}>
+              {region.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Select name="country">
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Select a country" />
+        </SelectTrigger>
+        <SelectContent>
+          {Object.keys(COUNTRIES).map((country) => (
+            <SelectItem key={country} value={country}>
+              {COUNTRIES[country as Country].name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Input type="text" name="tribe" />
+      <Input type="text" name="category" />
+      <Button>Submit</Button>
     </form>
   );
 };
