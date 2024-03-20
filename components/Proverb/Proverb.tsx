@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getProverb } from "@/app/actions";
+import { getInsight, getProverb } from "@/app/actions";
 import formatOrigin from "@/utils/formatOrigin";
 import cn from "@/utils/cn";
 import GetInsightButton from "../GetInsightButton/GetInsightButton";
@@ -52,10 +52,10 @@ const Proverb = async ({ id, className }: ProverbProps) => {
           {proverb.text}
         </p>
         <GetInsightButton
-          handleClick={async () => {
-            "use server";
-            // TODO: api call to openai
-          }}
+          proverb={proverb.text}
+          getInsight={getInsight}
+          className="self-start"
+          variant="outline"
         />
       </CardContent>
     </Card>

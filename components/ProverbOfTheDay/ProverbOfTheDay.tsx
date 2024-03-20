@@ -1,8 +1,8 @@
-import { getProverb, getProverbOfTheDay } from "@/app/actions";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { REGIONS } from "@/constants";
 import { Region } from "@prisma/client";
+import { getInsight, getProverbOfTheDay } from "@/app/actions";
+import { cn } from "@/lib/utils";
+import { REGIONS } from "@/constants";
+import GetInsightButton from "../GetInsightButton/GetInsightButton";
 
 type ProverbOfTheDayProps = {
   className?: string;
@@ -11,6 +11,7 @@ type ProverbOfTheDayProps = {
 
 const ProverbOfTheDay = async ({ className, style }: ProverbOfTheDayProps) => {
   const proverb = await getProverbOfTheDay();
+  let insight;
 
   if (!proverb) {
     return null;
@@ -30,7 +31,12 @@ const ProverbOfTheDay = async ({ className, style }: ProverbOfTheDayProps) => {
         <p className="mb-4 font-serif">
           &quot;{proverb.text}&quot; - {REGIONS[proverb.region as Region].name}
         </p>
-        <Button className="self-center">Gain Insight</Button>
+        <GetInsightButton
+          proverb={proverb.text}
+          getInsight={getInsight}
+          className="self-center"
+        />
+        {insight ? <div>{insight}</div> : null}
       </div>
     </section>
   );
