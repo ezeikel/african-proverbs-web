@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Button, ButtonProps } from "@/components/ui/button";
-import { getInsight } from "@/app/actions";
 import { useEffect, useState } from "react";
 
 type GetInsightButtonProps = ButtonProps & {
@@ -24,6 +23,7 @@ type GetInsightButtonProps = ButtonProps & {
 const GetInsightButton = ({
   proverb,
   className,
+  getInsight,
   ...props
 }: GetInsightButtonProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

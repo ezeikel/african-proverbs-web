@@ -1,12 +1,19 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
+import { createClient } from "@vercel/kv";
 import OpenAI from "openai";
-import { Category, Region, Country, Tribe } from "@prisma/client";
+import { Category, Region, Country, Tribe, Proverb } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+});
+
+// TODO: using kv doesnt seem to work - complains about env variables being missing
+const images = createClient({
+  url: process.env.REDIS_REST_API_URL as string,
+  token: process.env.REDIS_REST_API_TOKEN as string,
 });
 
 export const contributeProverb = async (
@@ -63,12 +70,45 @@ export const getProverbOfTheDay = async () => {
 };
 
 export const getInsight = async (proverb: string) => {
-  const insight = await openai.completions.create({
+  const response = await openai.completions.create({
     model: "gpt-3.5-turbo-instruct",
     prompt: `You are given the following African proverb: "${proverb}". What is the meaning of this proverb?`,
     max_tokens: 120,
     temperature: 0.7, // creativity
   });
 
-  return insight.choices[0].text.trim();
+  return response.choices[0].text.trim();
+};
+
+export const getProverbImageUrl = async (proverb: Proverb) => {
+  // https://github.com/vercel/storage/issues/510
+  noStore();
+
+  const cacheKey = `proverb-image-url:${proverb.id}`;
+
+  // check if we have a cached image
+  const cachedImage = await images.get<string>(cacheKey);
+
+  // if we have a cached image, return it
+  if (cachedImage) {
+    return cachedImage;
+  }
+
+  // if we don't have a cached image, generate one
+  const response = await openai.images.generate({
+    model: "dall-e-3",
+    prompt: `You are an abstract artist and you are given the following African proverb: "${proverb}". Create an image that represents this proverb. The aspect ratio should be 16:9`,
+    n: 1,
+    size: "1024x1024",
+  });
+
+  const imageUrl = response.data[0].url;
+
+  if (imageUrl) {
+    await images.set(cacheKey, imageUrl, {
+      ex: 60 * 60 * 24 * 1, // expire in 1 day
+    });
+  }
+
+  return imageUrl;
 };

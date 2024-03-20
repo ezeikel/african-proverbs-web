@@ -56,14 +56,11 @@ const Header = ({ className }: HeaderProps) => {
         <NavigationMenu>
           <NavigationMenuList>
             {NAVIGATION_ITEMS.map((item) => (
-              <NavigationMenuLink
-                key={item.id}
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link href={item.href} legacyBehavior passHref>
+              <Link href={item.href} key={item.id} legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   {item.title}
-                </Link>
-              </NavigationMenuLink>
+                </NavigationMenuLink>
+              </Link>
             ))}
           </NavigationMenuList>
         </NavigationMenu>

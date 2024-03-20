@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { getInsight, getProverb } from "@/app/actions";
+import { getInsight, getProverb, getProverbImageUrl } from "@/app/actions";
 import formatOrigin from "@/utils/formatOrigin";
 import cn from "@/utils/cn";
 import GetInsightButton from "../GetInsightButton/GetInsightButton";
@@ -10,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import ProverbImage from "../ProverbImage/ProverbImage";
+import { Suspense } from "react";
 
 type ProverbProps = {
   id: string;
@@ -36,18 +37,9 @@ const Proverb = async ({ id, className }: ProverbProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Image
-          alt="Proverb Image"
-          className="w-full h-64 object-cover rounded-md"
-          height="200"
-          src="/images/boy-in-striped-shirt.jpg"
-          style={{
-            aspectRatio: "200/200",
-            objectFit: "cover",
-            objectPosition: "top center",
-          }}
-          width="200"
-        />
+        <Suspense fallback={<div>Generating proverb image...</div>}>
+          <ProverbImage proverbId={proverb.id} />
+        </Suspense>
         <p className="font-serif text-gray-700 text-xl dark:text-gray-300">
           {proverb.text}
         </p>
