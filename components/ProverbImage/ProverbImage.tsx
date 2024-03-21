@@ -8,10 +8,7 @@ type ProverbImageProps = {
 
 const ProverbImage = async ({ proverbId }: ProverbImageProps) => {
   const proverb = await getProverb(proverbId);
-  const generatedImageUrl = proverb && (await getProverbImageUrl(proverb));
-  const imageUrl = generatedImageUrl
-    ? generatedImageUrl
-    : "/images/boy-in-striped-shirt.jpg";
+  const generatedImageUrl = await getProverbImageUrl(proverb);
 
   return (
     <AspectRatio ratio={16 / 9} className="bg-muted">
@@ -19,7 +16,7 @@ const ProverbImage = async ({ proverbId }: ProverbImageProps) => {
         alt="Proverb Image"
         className="w-full h-64 object-cover rounded-md"
         fill
-        src={imageUrl}
+        src={generatedImageUrl}
         style={{
           objectFit: "cover",
           objectPosition: "center",

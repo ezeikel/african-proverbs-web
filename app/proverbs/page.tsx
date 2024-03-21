@@ -8,9 +8,13 @@ const Proverbs = async () => {
 
   return (
     <PageWrap>
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4">
         {proverbs.map((proverb) => (
-          <Link href={`/proverb/${proverb.id}`} key={proverb.id}>
+          <Link
+            href={`/proverb/${proverb.id}`}
+            className="flex-auto"
+            key={proverb.id}
+          >
             <ProverbCard proverb={proverb} />
           </Link>
         ))}

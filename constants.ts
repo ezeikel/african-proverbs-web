@@ -1,10 +1,5 @@
-import { Country } from "@prisma/client";
-import {
-  Countries,
-  CountryCode,
-  Region as RegionType,
-  RegionCode,
-} from "./types";
+import { Prisma, Country, Region, Category } from "@prisma/client";
+import { Countries, CountryCode, RegionCode } from "./types";
 
 export const REGIONS = {
   NORTHERN_AFRICA: {
@@ -184,3 +179,169 @@ export const COUNTRIES: Countries = {
   ZAMBIA: { name: "Zambia", code: CountryCode.ZM },
   ZIMBABWE: { name: "Zimbabwe", code: CountryCode.ZW },
 };
+
+export const SEED_PROVERBS: Prisma.ProverbCreateInput[] = [
+  {
+    text: "If you do not know death, look at the grave",
+    country: Country.KENYA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "When the lion cannot find meat, it eats grass",
+    country: Country.KENYA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "One whose seeds have not sprouted does not give up planting",
+    country: Country.KENYA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.SUCCESS,
+  },
+  {
+    text: "A king’s child is a slave elsewhere",
+    country: Country.ZIMBABWE,
+    region: Region.SOUTHERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "Prepare now for the solutions of tomorrow",
+    country: Country.CONGO,
+    region: Region.CENTRAL_AFRICA,
+    category: Category.SUCCESS,
+  },
+  {
+    text: "A snake that you can see does not bite",
+    country: Country.MOZAMBIQUE,
+    region: Region.SOUTHERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "The words of the elders become sweet some day",
+    country: Country.MALAWI,
+    region: Region.SOUTHERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "More precious than our children are the children of our children",
+    country: Country.EGYPT,
+    region: Region.NORTHERN_AFRICA,
+    category: Category.LOVE,
+  },
+  {
+    text: "Unity is the real thing",
+    country: Country.KENYA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "A bird that allows itself to be caught will find a way of escaping",
+    country: Country.CAMEROON,
+    region: Region.CENTRAL_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "If you are ugly you must either learn to dance or make love",
+    country: Country.ZIMBABWE,
+    region: Region.SOUTHERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "The strong bull is overcome when it limps",
+    country: Country.ETHIOPIA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "Water that has been begged for does not quench the thirst",
+    country: Country.UGANDA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "The humble pay for the mistakes of their leaders",
+    country: Country.TANZANIA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "No tattoo is made without blood",
+    country: Country.MOZAMBIQUE,
+    region: Region.SOUTHERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "He who learns, teaches",
+    country: Country.ETHIOPIA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "Wisdom is like a baobab tree; no one individual can embrace it",
+    country: Country.GHANA,
+    region: Region.WESTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "The fool speaks, the wise man listens",
+    country: Country.ETHIOPIA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "In the moment of crisis, the wise build bridges, and the foolish build dams",
+    country: Country.NIGERIA,
+    region: Region.WESTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "A wise person will always find a way",
+    country: Country.TANZANIA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "Nobody is born wise",
+    country: Country.EGYPT,
+    region: Region.NORTHERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "A man who uses force is afraid of reasoning",
+    country: Country.KENYA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.WISDOM,
+  },
+  {
+    text: "Peace is costly but it is worth the expense",
+    country: Country.KENYA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "When there is peace in the country, the chief does not carry a shield",
+    country: Country.UGANDA,
+    region: Region.EASTERN_AFRICA,
+    category: Category.LIFE,
+  },
+  {
+    text: "Speak softly and carry a big stick; you will go far",
+    country: Country.NIGERIA,
+    region: Region.WESTERN_AFRICA,
+    category: Category.SUCCESS,
+  },
+];
+
+export const LOADING_TEXT: string[] = [
+  "Gathering wisdom...",
+  "Consulting the elders...",
+  "Unraveling ancient truths...",
+  "Sifting through the sands of time...",
+  "Weaving the fabric of knowledge...",
+  "Carving out proverbs from the Baobab tree...",
+  "Brewing a pot of ancestral wisdom...",
+  "Following the footsteps of our forefathers...",
+  "Deciphering the old scrolls...",
+  "Drawing water from the well of wisdom...",
+];

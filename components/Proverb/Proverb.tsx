@@ -1,4 +1,5 @@
-import { getInsight, getProverb, getProverbImageUrl } from "@/app/actions";
+import { Suspense } from "react";
+import { getInsight, getProverb } from "@/app/actions";
 import formatOrigin from "@/utils/formatOrigin";
 import cn from "@/utils/cn";
 import GetInsightButton from "../GetInsightButton/GetInsightButton";
@@ -10,7 +11,8 @@ import {
   CardTitle,
 } from "../ui/card";
 import ProverbImage from "../ProverbImage/ProverbImage";
-import { Suspense } from "react";
+import ProverbImageLoader from "../Loader/Loader";
+import { LoaderType } from "@/types";
 
 type ProverbProps = {
   id: string;
@@ -37,7 +39,14 @@ const Proverb = async ({ id, className }: ProverbProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Suspense fallback={<div>Generating proverb image...</div>}>
+        <Suspense
+          fallback={
+            <ProverbImageLoader
+              className="my-8"
+              type={LoaderType.PROVERB_IMAGE}
+            />
+          }
+        >
           <ProverbImage proverbId={proverb.id} />
         </Suspense>
         <p className="font-serif text-gray-700 text-xl dark:text-gray-300">

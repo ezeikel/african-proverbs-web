@@ -1,5 +1,10 @@
 import { Country } from "@prisma/client";
 
+export enum LoaderType {
+  PROVERB_INSIGHT = "PROVERB_INSIGHT",
+  PROVERB_IMAGE = "PROVERB_IMAGE",
+}
+
 export type Region = {
   name: string;
   code: RegionCode;

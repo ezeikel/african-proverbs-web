@@ -80,7 +80,15 @@ export const getInsight = async (proverb: string) => {
   return response.choices[0].text.trim();
 };
 
-export const getProverbImageUrl = async (proverb: Proverb) => {
+export const getProverbImageUrl = async (
+  proverb: Proverb | null,
+): Promise<string> => {
+  const defaultImageUrl = "/images/boy-in-striped-shirt.jpg";
+
+  if (!proverb) {
+    return defaultImageUrl;
+  }
+
   // https://github.com/vercel/storage/issues/510
   noStore();
 
@@ -94,21 +102,29 @@ export const getProverbImageUrl = async (proverb: Proverb) => {
     return cachedImage;
   }
 
-  // if we don't have a cached image, generate one
-  const response = await openai.images.generate({
-    model: "dall-e-3",
-    prompt: `You are an abstract artist and you are given the following African proverb: "${proverb}". Create an image that represents this proverb. The aspect ratio should be 16:9`,
-    n: 1,
-    size: "1024x1024",
-  });
-
-  const imageUrl = response.data[0].url;
-
-  if (imageUrl) {
-    await images.set(cacheKey, imageUrl, {
-      ex: 60 * 60 * 24 * 1, // expire in 1 day
+  try {
+    // if we don't have a cached image, generate one
+    const response = await openai.images.generate({
+      model: "dall-e-3",
+      prompt: `You are an abstract artist and you are given the following African proverb: "${proverb.text}". Create an image that represents this proverb.`,
+      n: 1,
+      size: "1024x1024",
     });
-  }
 
-  return imageUrl;
+    const imageUrl = response.data[0].url;
+
+    if (imageUrl) {
+      await images.set(cacheKey, imageUrl, {
+        ex: 60 * 60 * 1, // expire in 1 hour
+      });
+
+      return imageUrl;
+    }
+
+    return defaultImageUrl;
+  } catch (error) {
+    console.error(error);
+
+    return defaultImageUrl;
+  }
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import cn from "@/utils/cn";
 import {
   AlertDialog,
@@ -10,9 +11,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
 import { Button, ButtonProps } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { LoaderType } from "@/types";
+import Loader from "../Loader/Loader";
 
 type GetInsightButtonProps = ButtonProps & {
   proverb: string;
@@ -30,10 +31,10 @@ const GetInsightButton = ({
   const [insight, setInsight] = useState<string>();
 
   useEffect(() => {
-    if (insight) {
+    if (isOpen) {
       setIsOpen(true);
     }
-  }, [insight]);
+  }, [isOpen]);
 
   return (
     <>
@@ -42,6 +43,7 @@ const GetInsightButton = ({
           [className as string]: !!className,
         })}
         onClick={async () => {
+          setIsOpen(true);
           setInsight(await getInsight(proverb));
         }}
         {...props}
@@ -53,7 +55,9 @@ const GetInsightButton = ({
           <AlertDialogHeader>
             <AlertDialogTitle>{proverb}</AlertDialogTitle>
             <AlertDialogDescription>
-              {insight || "Loading..."}
+              {insight || (
+                <Loader className="my-8" type={LoaderType.PROVERB_INSIGHT} />
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
