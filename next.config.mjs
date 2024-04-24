@@ -1,8 +1,17 @@
+import { withPlausibleProxy } from "next-plausible";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["oaidalleapiprodscus.blob.core.windows.net"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "oaidalleapiprodscus.blob.core.windows.net",
+        pathname: "**",
+      },
+    ],
   },
 };
+const configWithPlausible = withPlausibleProxy(nextConfig);
 
-export default nextConfig;
+export default configWithPlausible;

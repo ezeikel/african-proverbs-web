@@ -14,7 +14,7 @@ export const {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, profile }) {
       const { email } = user;
 
       const existingUser = email

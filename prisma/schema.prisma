@@ -112,7 +112,7 @@ model Proverb {
   users     User[]    @relation("UserFavorites")
   comments  Comment[]
   likes     User[]    @relation("UserLikes") // Updated for likes
-  Like      Like[]
+  like      Like[]
 
   @@map(name: "proverbs")
 }
@@ -127,7 +127,7 @@ model User {
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   comments      Comment[]
   likedProverbs Proverb[] @relation("UserLikes") // This replaces the likes field for the correct many-to-many relation
-  Like          Like[]
+  like          Like[]
 
   @@map(name: "users")
 }

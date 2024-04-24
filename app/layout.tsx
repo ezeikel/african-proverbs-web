@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Lora as FontSerif, Lexend as FontSans } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import PlausibleProvider from "next-plausible";
 import Header from "@/components/Header/Header";
 import { cn } from "@/lib/utils";
 import LayoutWrap from "@/components/LayoutWrap/LayoutWrap";
 import Providers from "./providers";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import "../global.css";
+import "@/global.css";
 
 config.autoAddCss = false;
 
@@ -15,6 +16,7 @@ const fontSerif = FontSerif({
   subsets: ["latin"],
   variable: "--font-serif",
 });
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -33,6 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <PlausibleProvider domain="africanproverbs.fyi" />
+      </head>
       <body
         className={cn(
           "font-sans antialiased",

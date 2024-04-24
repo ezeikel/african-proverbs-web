@@ -6,10 +6,13 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "bunx prisma generate && next build",
+    "dev": "next dev --turbo",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
@@ -35,11 +38,11 @@
     "lucide-react": "^0.358.0",
     "next": "14.1.1",
     "next-auth": "beta",
+    "next-plausible": "^3.12.0",
     "openai": "^4.29.2",
     "prisma": "^5.10.2",
     "react": "^18",
     "react-dom": "^18",
-    "react-error-boundary": "^4.0.13",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2"
