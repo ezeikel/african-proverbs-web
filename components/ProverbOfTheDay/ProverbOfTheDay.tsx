@@ -1,4 +1,4 @@
-import { Region } from "@prisma/client";
+import { Region } from "@/lib/generated/prisma/browser";
 import { getInsight, getProverbOfTheDay } from "@/app/actions";
 import { cn } from "@/lib/utils";
 import { REGIONS } from "@/constants";

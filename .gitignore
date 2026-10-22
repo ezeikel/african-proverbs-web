@@ -34,3 +34,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma generated clients
+/lib/generated/
+
+# cloudflare
+.open-next/
+.wrangler/
+.dev.vars*
+*.db
+cloudflare-env.d.ts

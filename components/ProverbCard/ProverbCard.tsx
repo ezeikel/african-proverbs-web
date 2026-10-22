@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Proverb } from "@prisma/client";
+import { Proverb } from "@/lib/generated/prisma/browser";
 import { Card, CardContent } from "../ui/card";
 import formatOrigin from "@/utils/formatOrigin";
 

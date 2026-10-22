@@ -1,4 +1,4 @@
-import { Prisma, Country, Region, Category } from "@prisma/client";
+import { Prisma, Country, Region, Category } from "@/lib/generated/prisma/browser";
 import { Countries, CountryCode, RegionCode } from "./types";
 
 export const REGIONS = {

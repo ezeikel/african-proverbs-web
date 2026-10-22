@@ -1,4 +1,4 @@
-import { Country } from "@prisma/client";
+import { Country } from "@/lib/generated/prisma/browser";
 
 export enum LoaderType {
   PROVERB_INSIGHT = "PROVERB_INSIGHT",

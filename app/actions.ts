@@ -1,20 +1,31 @@
 "use server";
 
 import { revalidatePath, unstable_noStore as noStore } from "next/cache";
-import { createClient } from "@vercel/kv";
+import { Redis } from "@upstash/redis";
 import OpenAI from "openai";
-import { Category, Region, Country, Tribe, Proverb } from "@prisma/client";
+import {
+  Category,
+  Region,
+  Country,
+  Tribe,
+  Proverb,
+} from "@/lib/generated/prisma/browser";
 import prisma from "@/lib/prisma";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Created on first use: a missing key must not break every page at import.
+let openaiClient: OpenAI | undefined;
+const getOpenAI = () => {
+  openaiClient ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return openaiClient;
+};
 
-// TODO: using kv doesnt seem to work - complains about env variables being missing
-const images = createClient({
-  url: process.env.REDIS_REST_API_URL as string,
-  token: process.env.REDIS_REST_API_TOKEN as string,
-});
+// Image URLs are cached in Upstash Redis. Without it, never generate images:
+// each uncached render would otherwise be a paid DALL-E call.
+const getImageCache = () => {
+  const url = process.env.REDIS_REST_API_URL;
+  const token = process.env.REDIS_REST_API_TOKEN;
+  return url && token ? new Redis({ url, token }) : null;
+};
 
 export const contributeProverb = async (
   userId: string | undefined,
@@ -49,7 +60,7 @@ export const contributeProverb = async (
   return proverb;
 };
 
-export const getProverbs = () => prisma.proverb.findMany();
+export const getProverbs = async () => prisma.proverb.findMany();
 
 export const getProverb = async (id: string) => {
   const proverb = await prisma.proverb.findUnique({
@@ -70,7 +81,7 @@ export const getProverbOfTheDay = async () => {
 };
 
 export const getInsight = async (proverb: string) => {
-  const response = await openai.completions.create({
+  const response = await getOpenAI().completions.create({
     model: "gpt-3.5-turbo-instruct",
     prompt: `You are given the following African proverb: "${proverb}". What is the meaning of this proverb?`,
     max_tokens: 120,
@@ -92,6 +103,11 @@ export const getProverbImageUrl = async (
   // https://github.com/vercel/storage/issues/510
   noStore();
 
+  const images = getImageCache();
+  if (!images || !process.env.OPENAI_API_KEY) {
+    return defaultImageUrl;
+  }
+
   const cacheKey = `proverb-image-url:${proverb.id}`;
 
   // check if we have a cached image
@@ -104,14 +120,14 @@ export const getProverbImageUrl = async (
 
   try {
     // if we don't have a cached image, generate one
-    const response = await openai.images.generate({
+    const response = await getOpenAI().images.generate({
       model: "dall-e-3",
       prompt: `You are an abstract artist and you are given the following African proverb: "${proverb.text}". Create an image that represents this proverb.`,
       n: 1,
       size: "1024x1024",
     });
 
-    const imageUrl = response.data[0].url;
+    const imageUrl = response.data?.[0]?.url;
 
     if (imageUrl) {
       await images.set(cacheKey, imageUrl, {

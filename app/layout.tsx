@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
 import { Lora as FontSerif, Lexend as FontSans } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import PlausibleProvider from "next-plausible";
@@ -51,7 +50,6 @@ export default function RootLayout({
             <main className="row-start-2 row-span-1">{children}</main>
           </LayoutWrap>
         </Providers>
-        <Analytics />
       </body>
     </html>
   );

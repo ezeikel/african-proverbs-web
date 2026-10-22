@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
-import { Country, Region } from "@prisma/client";
+import { Country, Region } from "@/lib/generated/prisma/browser";
 import { Button } from "@/components/ui/button";
 import {
   Select,

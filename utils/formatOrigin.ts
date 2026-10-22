@@ -1,4 +1,4 @@
-import { Proverb } from "@prisma/client";
+import { Proverb } from "@/lib/generated/prisma/browser";
 import { COUNTRIES, REGIONS } from "@/constants";
 
 const formatOrigin = (proverb: Proverb) => {

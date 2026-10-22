@@ -1,12 +1,15 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import prisma from "./lib/prisma";
-import { Role } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { Role } from "@/lib/generated/prisma/browser";
 
 export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
+  // Not on Vercel any more, so Auth.js cannot infer the host is trusted.
+  trustHost: true,
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
