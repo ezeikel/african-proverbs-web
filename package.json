@@ -8,6 +8,7 @@
     "start": "next start",
     "check-types": "prisma generate && tsc --noEmit",
     "lint": "pnpm check-types",
+    "test": "node --experimental-strip-types --test lib/*.test.ts",
     "postinstall": "prisma generate",
     "prisma:generate": "prisma generate",
     "db:migrations:apply": "wrangler d1 migrations apply african-proverbs --remote",

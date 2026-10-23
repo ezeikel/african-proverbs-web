@@ -8,6 +8,7 @@ import {
   Country,
   Tribe,
 } from "@/lib/generated/prisma/browser";
+import { requestInsight } from "@/lib/insight";
 import prisma from "@/lib/prisma";
 
 // Created on first use: a missing key must not break every page at import.
@@ -99,14 +100,7 @@ export const getInsight = async (proverbId: string) => {
     return proverb.insight;
   }
 
-  const response = await getOpenAI().completions.create({
-    model: "gpt-3.5-turbo-instruct",
-    prompt: `You are given the following African proverb: "${proverb.text}". What is the meaning of this proverb?`,
-    max_tokens: 120,
-    temperature: 0.7, // creativity
-  });
-
-  const insight = response.choices[0]?.text.trim() ?? "";
+  const insight = (await requestInsight(getOpenAI(), proverb.text)) ?? "";
 
   if (insight) {
     // Only fill an empty slot, so a concurrent first click cannot overwrite.
