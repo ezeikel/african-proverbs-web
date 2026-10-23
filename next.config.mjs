@@ -7,13 +7,6 @@ const nextConfig = {
   images: {
     // No Next image optimizer on Workers; images are served as-is.
     unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "oaidalleapiprodscus.blob.core.windows.net",
-        pathname: "**",
-      },
-    ],
   },
 };
 

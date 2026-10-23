@@ -1,6 +1,9 @@
 import PageWrap from "@/components/PageWrap/PageWrap";
 import Proverb from "@/components/Proverb/Proverb";
 
+// Reads D1 per request (previously forced by noStore() in the image action).
+export const dynamic = "force-dynamic";
+
 type ProverbProps = {
   params: Promise<{
     id: string;

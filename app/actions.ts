@@ -1,14 +1,12 @@
 "use server";
 
-import { revalidatePath, unstable_noStore as noStore } from "next/cache";
-import { Redis } from "@upstash/redis";
+import { revalidatePath } from "next/cache";
 import OpenAI from "openai";
 import {
   Category,
   Region,
   Country,
   Tribe,
-  Proverb,
 } from "@/lib/generated/prisma/browser";
 import prisma from "@/lib/prisma";
 
@@ -17,14 +15,6 @@ let openaiClient: OpenAI | undefined;
 const getOpenAI = () => {
   openaiClient ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   return openaiClient;
-};
-
-// Image URLs are cached in Upstash Redis. Without it, never generate images:
-// each uncached render would otherwise be a paid DALL-E call.
-const getImageCache = () => {
-  const url = process.env.REDIS_REST_API_URL;
-  const token = process.env.REDIS_REST_API_TOKEN;
-  return url && token ? new Redis({ url, token }) : null;
 };
 
 export const contributeProverb = async (
@@ -89,58 +79,4 @@ export const getInsight = async (proverb: string) => {
   });
 
   return response.choices[0].text.trim();
-};
-
-export const getProverbImageUrl = async (
-  proverb: Proverb | null,
-): Promise<string> => {
-  const defaultImageUrl = "/images/boy-in-striped-shirt.jpg";
-
-  if (!proverb) {
-    return defaultImageUrl;
-  }
-
-  // https://github.com/vercel/storage/issues/510
-  noStore();
-
-  const images = getImageCache();
-  if (!images || !process.env.OPENAI_API_KEY) {
-    return defaultImageUrl;
-  }
-
-  const cacheKey = `proverb-image-url:${proverb.id}`;
-
-  // check if we have a cached image
-  const cachedImage = await images.get<string>(cacheKey);
-
-  // if we have a cached image, return it
-  if (cachedImage) {
-    return cachedImage;
-  }
-
-  try {
-    // if we don't have a cached image, generate one
-    const response = await getOpenAI().images.generate({
-      model: "dall-e-3",
-      prompt: `You are an abstract artist and you are given the following African proverb: "${proverb.text}". Create an image that represents this proverb.`,
-      n: 1,
-      size: "1024x1024",
-    });
-
-    const imageUrl = response.data?.[0]?.url;
-
-    if (imageUrl) {
-      await images.set(cacheKey, imageUrl, {
-        ex: 60 * 60 * 1, // expire in 1 hour
-      });
-
-      return imageUrl;
-    }
-
-    return defaultImageUrl;
-  } catch (error) {
-    console.error(error);
-
-    return defaultImageUrl;
-  }
 };

@@ -1,29 +1,23 @@
 import Image from "next/image";
-import { getProverb, getProverbImageUrl } from "@/app/actions";
 import { AspectRatio } from "../ui/aspect-ratio";
 
-type ProverbImageProps = {
-  proverbId: string;
-};
+// The per-proverb DALL-E image was retired (dall-e-3 is no longer offered).
+// Every proverb shows the image the old code fell back to.
+const DEFAULT_IMAGE_URL = "/images/boy-in-striped-shirt.jpg";
 
-const ProverbImage = async ({ proverbId }: ProverbImageProps) => {
-  const proverb = await getProverb(proverbId);
-  const generatedImageUrl = await getProverbImageUrl(proverb);
-
-  return (
-    <AspectRatio ratio={16 / 9} className="bg-muted">
-      <Image
-        alt="Proverb Image"
-        className="w-full h-64 object-cover rounded-md"
-        fill
-        src={generatedImageUrl}
-        style={{
-          objectFit: "cover",
-          objectPosition: "center",
-        }}
-      />
-    </AspectRatio>
-  );
-};
+const ProverbImage = () => (
+  <AspectRatio ratio={16 / 9} className="bg-muted">
+    <Image
+      alt="Proverb Image"
+      className="w-full h-64 object-cover rounded-md"
+      fill
+      src={DEFAULT_IMAGE_URL}
+      style={{
+        objectFit: "cover",
+        objectPosition: "center",
+      }}
+    />
+  </AspectRatio>
+);
 
 export default ProverbImage;

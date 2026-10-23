@@ -47,7 +47,7 @@ const Proverb = async ({ id, className }: ProverbProps) => {
             />
           }
         >
-          <ProverbImage proverbId={proverb.id} />
+          <ProverbImage />
         </Suspense>
         <p className="font-serif text-gray-700 text-xl dark:text-gray-300">
           {proverb.text}
