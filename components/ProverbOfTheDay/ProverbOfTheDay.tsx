@@ -32,6 +32,7 @@ const ProverbOfTheDay = async ({ className, style }: ProverbOfTheDayProps) => {
           &quot;{proverb.text}&quot; - {REGIONS[proverb.region as Region].name}
         </p>
         <GetInsightButton
+          proverbId={proverb.id}
           proverb={proverb.text}
           getInsight={getInsight}
           className="self-center"

@@ -53,6 +53,7 @@ const Proverb = async ({ id, className }: ProverbProps) => {
           {proverb.text}
         </p>
         <GetInsightButton
+          proverbId={proverb.id}
           proverb={proverb.text}
           getInsight={getInsight}
           className="self-start"

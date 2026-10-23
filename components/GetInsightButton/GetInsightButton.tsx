@@ -16,12 +16,14 @@ import { LoaderType } from "@/types";
 import Loader from "../Loader/Loader";
 
 type GetInsightButtonProps = ButtonProps & {
+  proverbId: string;
   proverb: string;
-  getInsight: (proverb: string) => Promise<string>;
+  getInsight: (proverbId: string) => Promise<string>;
   className?: string;
 };
 
 const GetInsightButton = ({
+  proverbId,
   proverb,
   className,
   getInsight,
@@ -44,7 +46,7 @@ const GetInsightButton = ({
         })}
         onClick={async () => {
           setIsOpen(true);
-          setInsight(await getInsight(proverb));
+          setInsight(await getInsight(proverbId));
         }}
         {...props}
       >

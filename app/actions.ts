@@ -70,13 +70,51 @@ export const getProverbOfTheDay = async () => {
   return proverb;
 };
 
-export const getInsight = async (proverb: string) => {
+/**
+ * Explains a proverb from our own table. Takes an id, never free text, so the
+ * action cannot be used as an open OpenAI proxy. The result is stored on the
+ * proverb row: a proverb's meaning never changes, so each proverb pays for at
+ * most one completion.
+ */
+export const getInsight = async (proverbId: string) => {
+  // Server actions are public endpoints: reject anything that is not an id.
+  if (
+    typeof proverbId !== "string" ||
+    proverbId.length === 0 ||
+    proverbId.length > 128
+  ) {
+    throw new Error("Proverb not found.");
+  }
+
+  const proverb = await prisma.proverb.findUnique({
+    where: { id: proverbId },
+    select: { id: true, text: true, insight: true },
+  });
+
+  if (!proverb) {
+    throw new Error("Proverb not found.");
+  }
+
+  if (proverb.insight) {
+    return proverb.insight;
+  }
+
   const response = await getOpenAI().completions.create({
     model: "gpt-3.5-turbo-instruct",
-    prompt: `You are given the following African proverb: "${proverb}". What is the meaning of this proverb?`,
+    prompt: `You are given the following African proverb: "${proverb.text}". What is the meaning of this proverb?`,
     max_tokens: 120,
     temperature: 0.7, // creativity
   });
 
-  return response.choices[0].text.trim();
+  const insight = response.choices[0]?.text.trim() ?? "";
+
+  if (insight) {
+    // Only fill an empty slot, so a concurrent first click cannot overwrite.
+    await prisma.proverb.updateMany({
+      where: { id: proverb.id, insight: null },
+      data: { insight },
+    });
+  }
+
+  return insight;
 };

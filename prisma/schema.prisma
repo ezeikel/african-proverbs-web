@@ -109,6 +109,8 @@ model Proverb {
   country   Country?
   tribe     Tribe?
   category  Category?
+  // Cached "Get Insight" explanation. Generated once per proverb, then reused.
+  insight   String?
   createdAt DateTime  @default(now()) @map(name: "created_at")
   updatedAt DateTime  @updatedAt @map(name: "updated_at")
   users     User[]    @relation("UserFavorites")
